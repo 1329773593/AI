@@ -51,9 +51,6 @@ def generate_class_labels_by2(Y):
     return labels, boundaries
 
 
-import numpy as np
-from sklearn.cluster import KMeans
-
 
 def generate_class_labels_byCluster(Y, n_clusters=4):
     """
