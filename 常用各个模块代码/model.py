@@ -28,13 +28,14 @@ class FeedForwardNet_BN_LeakyDropout(nn.Module):
         for i, num_units in enumerate(layers[:-1]):
             # 全连接层：将输入维度映射到当前层神经元个数
             self.layers.append(nn.Linear(prev_dim, num_units))
-
-
+            
             # 批标准化：使得每个批次中该层输出均值为 0、方差为 1
             # 多次仿真证实，BN对浅层网络并无好处，一般其在训练深层网络有效果
             # self.layers.append(nn.BatchNorm1d(num_units))
+            
             # LeakyReLU 激活：负半轴以 0.2 的斜率输出
             self.layers.append(nn.LeakyReLU())
+            
             # Dropout 正则化：随机丢弃部分输出，防止过拟合
             self.layers.append(nn.Dropout(dropout_rate))
             prev_dim = num_units
@@ -53,11 +54,12 @@ class FeedForwardNet_BN_LeakyDropout(nn.Module):
         return self.layers[-1](x)
 
 
+
 class FeedForwardNet_ReLU(nn.Module):
     """
     前馈神经网络（标准全连接网络），隐藏层使用 ReLU 激活
 
-    该网络用于回归任务，每个隐藏层使用 ReLU 激活函数，
+    该网络用于回归或分类任务，每个隐藏层使用 ReLU 激活函数，
     输出层直接输出预测结果（回归任务通常不使用激活函数）。
     """
 
